@@ -42,11 +42,12 @@ namespace TechJobsConsole
                     {
                         List<string> results = JobData.FindAll(columnChoice);
 
-                        Console.WriteLine("\n*** All " + columnChoices[columnChoice] + " Values ***");
+                        Console.WriteLine("\n***~~ All " + columnChoices[columnChoice] + " Values ~~***");
                         foreach (string item in results)
                         {
                             Console.WriteLine(item);
                         }
+                        Console.WriteLine("***~~~***~~~***~~~***");
                     }
                 }
                 else // choice is "search"
@@ -63,11 +64,18 @@ namespace TechJobsConsole
                     // Fetch results
                     if (columnChoice.Equals("all"))
                     {
-                        Console.WriteLine("Search all fields not yet implemented.");
+                        searchResults = JobData.FindByValue(searchTerm);
                     }
                     else
                     {
                         searchResults = JobData.FindByColumnAndValue(columnChoice, searchTerm);
+                    }
+                    if (searchResults.Count == 0)
+                    {
+                        Console.WriteLine("No matches found, continue the hunt!");
+                    }
+                    else
+                    {
                         PrintJobs(searchResults);
                     }
                 }
@@ -112,13 +120,21 @@ namespace TechJobsConsole
                 }
 
             } while (!isValidChoice);
-
+            
             return choiceKeys[choiceIdx];
         }
 
         private static void PrintJobs(List<Dictionary<string, string>> someJobs)
         {
-            Console.WriteLine("printJobs is not implemented yet");
+            foreach (Dictionary<string, string> someJob in someJobs)
+            {
+                Console.WriteLine("\n\n***~~~~~~~~~~~~~~~~***");
+                foreach(KeyValuePair<string, string> some in someJob)
+                { 
+                    Console.WriteLine(some.Key + ": " + some.Value);
+                }
+                Console.WriteLine("***~~~~~~~~~~~~~~~~***\n");
+            }
         }
     }
-}
+}                  
